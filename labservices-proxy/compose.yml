@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  reverse-proxy:
+    image: nginx:stable
+    volumes:
+      - "/usr/local/etc/nginx/conf.d:/etc/nginx/conf.d:ro"
+    env_file:
+      - timezone.txt
+    networks:
+      - labservices
+    ports:
+      - "80:80"
+
+networks:
+  labservices:
+    external: true

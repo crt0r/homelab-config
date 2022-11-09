@@ -26,6 +26,7 @@ services:
     image: zabbix/zabbix-web-nginx-pgsql
     networks:
       - service-network
+      - labservices
     env_file: 
       - db-credentials.txt
       - timezone.txt
@@ -38,3 +39,5 @@ services:
 
 networks:
   service-network:
+  labservices:
+    external: true
