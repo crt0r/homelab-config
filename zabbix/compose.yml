@@ -1,0 +1,40 @@
+version: "2"
+services:
+  database:
+    image: postgres:15-bullseye
+    volumes:
+      - "/var/lib/pgdata:/var/lib/postgresql/data:rw"
+    networks:
+      - service-network
+    env_file: 
+      - db-credentials.txt
+      - timezone.txt
+  server:
+    depends_on:
+      - database
+    image: zabbix/zabbix-server-pgsql
+    networks:
+      - service-network
+    env_file: 
+      - db-credentials.txt
+      - timezone.txt
+    environment:
+      - DB_SERVER_HOST=database
+  web-interface:
+    depends_on:
+      - database
+    image: zabbix/zabbix-web-nginx-pgsql
+    networks:
+      - service-network
+    env_file: 
+      - db-credentials.txt
+      - timezone.txt
+    environment:
+      - DB_SERVER_HOST=database
+      - ZBX_SERVER_HOST=server
+    ports:
+      - "8081:8080"
+      - "8443:8443"
+
+networks:
+  service-network:
