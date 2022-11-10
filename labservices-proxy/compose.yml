@@ -4,12 +4,14 @@ services:
     image: nginx:stable
     volumes:
       - "/usr/local/etc/nginx/conf.d:/etc/nginx/conf.d:ro"
+      - "/usr/local/etc/nginx/ssl:/etc/nginx/ssl:ro"
     env_file:
       - timezone.txt
     networks:
       - labservices
     ports:
       - "80:80"
+      - "443:443"
 
 networks:
   labservices:

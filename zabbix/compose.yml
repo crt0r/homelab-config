@@ -21,6 +21,8 @@ services:
     environment:
       - DB_SERVER_HOST=database
   web-interface:
+    volumes:
+      - "/usr/local/etc/zabbix-web/ssl:/etc/ssl/nginx:ro"
     depends_on:
       - database
     image: zabbix/zabbix-web-nginx-pgsql
